@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  tmon1:
+    image: camel
+    links:
+      - postgresdb:postgresdb
+    networks:
+      - levo
+    depends_on:
+      - postgresdb
+    restart: on-failure
+  
+  postgresdb:
+    image: postgres:9.6
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    networks:
+      - levo
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test_db
+    
+networks:
+  levo:
